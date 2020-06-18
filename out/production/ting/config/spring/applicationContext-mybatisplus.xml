@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+    "
+       default-autowire="byName"
+>
+    <!-- 加载properties配置 -->
+    <context:property-placeholder location="classpath:config/global/db.properties" file-encoding="UTF-8" local-override="true"/>
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="username" value="root"/>
+        <property name="password" value="root"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/ting?useSSL=false"/>
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+    </bean>
+
+    <!-- SqlSessionFactoryBean会话工厂 -->
+    <bean id="sqlSessionFactory" class="com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <!--<property name="globalConfig" ref="globalConfig"/>-->
+        <property name="plugins">
+            <array>
+                <bean class="com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor">
+                    <!-- 数据库方言 -->
+                    <property name="dialect">
+                        <bean class="com.baomidou.mybatisplus.extension.plugins.pagination.dialects.MySqlDialect"/>
+                    </property>
+                </bean>
+            </array>
+        </property>
+    </bean>
+
+    <!-- Mybatis plus 全局策略配置 -->
+   <!-- <bean id="globalConfig" class="com.baomidou.mybatisplus.core.config.GlobalConfig">
+        <property name="dbConfig">
+            <bean class="com.baomidou.mybatisplus.core.config.GlobalConfig$DbConfig">
+                <property name="tablePrefix" value="t_"/>
+                <property name="idType" value="AUTO"/>
+            </bean>
+        </property>
+    </bean>-->
+
+    <bean id="mapperScanner" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+        <property name="basePackage" value="com.bjsxt.mapper"/>
+    </bean>
+
+</beans>
