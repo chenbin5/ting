@@ -12,5 +12,15 @@
         <result column="url" property="url" />
         <result column="mdesc" property="mdesc" />
     </resultMap>
+    
+    <select id="selectByParent" resultMap="BaseResultMap">
+
+        select mid,mname,pid,isparent,status,url,mdesc from t_menu
+	      where pid = #{id} and mid in(
+		    select mid from t_role_menu where rid in(
+			  select rid from t_admin_role where aid = #{aid}
+		    )
+	      )
+    </select>
 
 </mapper>
