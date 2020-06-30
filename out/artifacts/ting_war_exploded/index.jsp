@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="utf-8" language="java" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
   <head>
     <title>登录 - Ting域主持人平台 - 后台管理</title>
@@ -21,8 +22,12 @@
   </head>
   <body>
     <div style="margin: auto;width:400px;margin-top: 20px">
-      <form action="" method="post" id="adminLoginForm">
+      <form action="${pageContext.request.contextPath}/admin/login" method="post" id="adminLoginForm">
       <div class="easyui-panel" title="Ting域主持人平台-后台管理系统" style="width:400px;padding:50px 60px;text-align: center">
+        <c:if test="${flag=='1'}">
+          <span style="color: red">登录名或密码错误</span>
+        </c:if>
+        <c:remove var="flag" scope="session"></c:remove>
         <div style="margin-bottom:20px">
           <input class="easyui-textbox" prompt="请输入用户名" name="aname" iconWidth="28" style="width:100%;height:34px;padding:10px;">
         </div>

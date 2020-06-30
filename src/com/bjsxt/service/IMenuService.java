@@ -2,6 +2,9 @@ package com.bjsxt.service;
 
 import com.bjsxt.entity.Menu;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.bjsxt.vo.TreeNode;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IMenuService extends IService<Menu> {
 
+    List<TreeNode> listMenusByParent(int id, Integer aid);
 }
